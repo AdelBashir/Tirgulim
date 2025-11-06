@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * ThreadCheckArray is a worker thread that performs a recursive subset-sum search.
+ * Each thread explores a different branch of the search space and stops early if
+ * another thread has already found a valid solution. When a solution is found,
+ * the thread updates the shared data with the result and marks which elements
+ * form the successful subset.
+ */
 public class ThreadCheckArray implements Runnable {
     private boolean flag;
     private boolean[] winArray;
@@ -7,6 +14,11 @@ public class ThreadCheckArray implements Runnable {
     ArrayList<Integer> array;
     int b;
 
+    /**
+     * 
+     * @param sd
+     * Initializes the thread with shared data and prepares a local winArray.
+     */
     public ThreadCheckArray(SharedData sd) {
         this.sd = sd;
         synchronized (sd) {
@@ -15,7 +27,15 @@ public class ThreadCheckArray implements Runnable {
         }
         winArray = new boolean[array.size()];
     }
+    
+    
 
+    /**
+     * @param n
+     * @param b
+     * Recursively checks combinations of the array to find a subset whose sum equals b.
+      If a solution is found, it updates the shared flag and marks elements in winArray.
+     */
     void rec(int n, int b) {
         synchronized (sd) {
             if (sd.getFlag()) return;
@@ -31,7 +51,7 @@ public class ThreadCheckArray implements Runnable {
             return;
         }
 
-        // כולל את האיבר n-1
+        // Includes the term n-1
         int val = array.get(n - 1);
         rec(n - 1, b - val);
         if (flag) winArray[n - 1] = true;
@@ -40,10 +60,14 @@ public class ThreadCheckArray implements Runnable {
             if (sd.getFlag()) return;
         }
 
-        // בלי האיבר n-1
+        // Without the term n-1
         rec(n - 1, b);
     }
 
+    /**
+     Runs the subset-sum checking process for this thread.
+     * Each thread explores a different search branch and updates shared data if a solution is found.
+     */
     @Override
     public void run() {
         int size = array.size();

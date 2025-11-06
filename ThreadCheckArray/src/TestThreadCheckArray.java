@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * 
+ */
 public class TestThreadCheckArray {
     public static void main(String[] args) {
         try (Scanner input = new Scanner(System.in)) {
@@ -39,21 +42,21 @@ public class TestThreadCheckArray {
 
             System.out.println("Solution for b : " + sd.getB() + ", n = " + sd.getArray().size());
 
-            // הדפסת אינדקסים
+            // Printing indexes
             System.out.print("I:    ");
             for (int i = 0; i < sd.getArray().size(); i++) {
                 System.out.printf("%-5d", i);
             }
             System.out.println();
 
-            // הדפסת ערכים
+            // Printing values
             System.out.print("A:    ");
             for (int val : sd.getArray()) {
                 System.out.printf("%-5d", val);
             }
             System.out.println();
 
-            // הדפסת בחירות (winArray)
+            // Printing selections (winArray)
             System.out.print("C:    ");
             for (boolean chosen : sd.getWinArray()) {
                 System.out.print(chosen ? "1    " : "0    ");
